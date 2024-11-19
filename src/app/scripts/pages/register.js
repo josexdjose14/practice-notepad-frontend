@@ -18,13 +18,13 @@ export const RegisterView = () => {
     <article class="container d-flex justify-content-center align-items-center py-5 px-2">
         <form action=${RegisterReq} method="post" class="d-flex row justify-content-center p-1 my-4 w-75">
         <label for="" class="form-label mb-2">Ingrese su nombre</label>
-            <input type="text" placeholder="" class="form-control mb-4">
+            <input type="text" name="userName" class="form-control mb-4">
             <label for="" class="form-label mb-2">Ingrese su correo</label>
-            <input type="text" placeholder="" class="form-control mb-4">
+            <input type="text" name="userEmail" class="form-control mb-4">
             <label for="" class="form-label mb-2">Ingrese su contraseña</label>
-            <input type="password" placeholder="" class="form-control mb-4">
+            <input type="password" name="userPassword" class="form-control mb-4">
             <label for="" class="form-label mb-2">Repita su contraseña</label>
-            <input type="password" placeholder="" class="form-control mb-4">
+            <input type="password" name="userPasswordRepeat" class="form-control mb-4">
             <button type="submit my-b" class="btn btn-primary">Registrarse</button>
         </form>
     </article>
@@ -34,6 +34,19 @@ export const RegisterView = () => {
     //anexo/posicionamiento del DOM  
     fragment.appendChild(RegisterBox);
     divRoot.appendChild(fragment);
+
+    //funciones
+    let formRaw = document.querySelector("form")
+    formRaw.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let formData = new FormData(formRaw);
+        let formDataExtracted = Object.fromEntries(formData.entries());
+        console.log(formDataExtracted)
+        if (formDataExtracted.userPassword !== formDataExtracted.userPasswordRepeat) {
+            console.log("las cntraseñas no se parecen")
+            return
+        }
+    })
 
     return divRoot
 }
