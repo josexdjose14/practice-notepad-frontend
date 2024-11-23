@@ -34,9 +34,10 @@ export const Header = (props) => {
             // console.log(e.target.innerText)
             page = e.target.innerText
         }
-        divRoot.innerHTML = ``;
-        divRoot.appendChild(nav)
-
+        // divRoot.innerHTML = ``;
+        // divRoot.appendChild(nav)
+        // ya no es necesario borrar el divRoot y volver a cargar toda la logica, el header se mantiene pero el div que le sigue se modifica.
+        console.log(page)
         switch (page) {
             case "Register":
                 RegisterView()

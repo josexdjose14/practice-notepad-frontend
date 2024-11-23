@@ -12,34 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     //carga inicial
     divRoot.className = "h-100"
     divRoot.appendChild(Header(appState))
+    //se crea un div estatico para cambiarlo mas facil
+    //const fragment = document.createDocumentFragment();
+    const staticBox = document.createElement("div");
+    staticBox.id = "staticBox";
+    divRoot.appendChild(staticBox)
+
     loginView()
-    mainHeader = document.querySelector("#mainHeader")
-    console.log(mainHeader)
-
-    //primera funcion
-    // mainHeader.addEventListener('click', (e) => {
-    //     let itemSelected = e.target.className;
-    //     console.log(itemSelected)
-    //     // console.log(typeof (itemSelected))
-    //     if (itemSelected.includes("nav-item")) {
-    //         // console.log(e.target.innerText)
-    //         appState.page = e.target.innerText
-    //     }
-    //     divRoot.innerHTML = ``;
-    //     divRoot.appendChild(Header(appState))
-
-    //     switch (appState.page) {
-    //         case "Register":
-    //             RegisterView()
-    //             break;
-    //         case "Login":
-    //             loginView()
-    //             break;
-    //         case "Home":
-    //             HomeView()
-    //             break;
-    //         default:
-    //             console.log("aun no esta")
-    //     }
-    // })
 })

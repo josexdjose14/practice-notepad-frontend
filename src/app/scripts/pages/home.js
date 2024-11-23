@@ -1,9 +1,11 @@
 import { divRoot } from "../helpers/dom.js";
+import { recoverToken } from "../helpers/requests.js";
 
 export const HomeView = () => {
     //creacion y captura del DOM
     const fragment = document.createDocumentFragment();
-    const HomeBox = document.createElement("div");
+    // const HomeBox = document.createElement("div");
+    const HomeBox = document.querySelector("#staticBox");
 
     //modificacion del DOM    
     HomeBox.innerHTML = `
@@ -47,9 +49,17 @@ export const HomeView = () => {
     HomeBox.className = "h-100"
 
     //anexo/posicionamiento del DOM  
-    fragment.appendChild(HomeBox);
-    divRoot.appendChild(fragment);
+    // fragment.appendChild(HomeBox);
+    // divRoot.appendChild(fragment);
+    // ya es innecesario porque se esta modificando un div desde el index.js
 
-    return divRoot
+    //funciones
+    HomeBox.addEventListener('DOMContentLoaded', () => {
+        console.log("deberia estar cargando")
+        const lastToken = recoverToken();
+        console.log(lastToken)
+    })
 
+    //return divRoot
+    return HomeBox
 }
