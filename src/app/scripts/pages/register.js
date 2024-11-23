@@ -1,10 +1,12 @@
 import { divRoot, textfile2 } from "../helpers/dom.js";
-import { RegisterReq } from "../helpers/urlBackend.js";
+import { registerNewUser } from "../helpers/requests.js";
+import { loginView } from "./login.js";
 
 export const RegisterView = () => {
     //creacion y captura del DOM
     const fragment = document.createDocumentFragment();
-    const RegisterBox = document.createElement("div");
+    // const RegisterBox = document.createElement("div");
+    const RegisterBox = document.querySelector("#staticBox");
 
     //modificacion del DOM    
     RegisterBox.innerHTML = `
@@ -16,37 +18,60 @@ export const RegisterView = () => {
     </article>
 
     <article class="container d-flex justify-content-center align-items-center py-5 px-2">
-        <form action=${RegisterReq} method="post" class="d-flex row justify-content-center p-1 my-4 w-75">
+        <form class="d-flex row justify-content-center p-1 my-4 w-75">
         <label for="" class="form-label mb-2">Ingrese su nombre</label>
-            <input type="text" name="userName" class="form-control mb-4">
+            <input type="text" name="userName" class="form-control mb-4" value="Jose Henao">
             <label for="" class="form-label mb-2">Ingrese su correo</label>
-            <input type="text" name="userEmail" class="form-control mb-4">
+            <input type="text" name="userEmail" class="form-control mb-4" value="josexdjose14@gmail.com">
             <label for="" class="form-label mb-2">Ingrese su contraseña</label>
-            <input type="password" name="userPassword" class="form-control mb-4">
+            <input type="password" name="userPassword" class="form-control mb-4" value="141414">
             <label for="" class="form-label mb-2">Repita su contraseña</label>
-            <input type="password" name="userPasswordRepeat" class="form-control mb-4">
-            <button type="submit my-b" class="btn btn-primary">Registrarse</button>
+            <input type="password" name="userPasswordRepeat" class="form-control mb-4" value="141414">
+            <button type="submit" class="btn btn-primary">Registrarse</button>
         </form>
     </article>
     `
     RegisterBox.className = "col d-flex flex-row justify-content-between bg-light h-100"
 
     //anexo/posicionamiento del DOM  
-    fragment.appendChild(RegisterBox);
-    divRoot.appendChild(fragment);
+    // fragment.appendChild(RegisterBox);
+    // divRoot.appendChild(fragment);
+    // ya es innecesario porque se esta modificando un div desde el index.js
 
     //funciones
     let formRaw = document.querySelector("form")
-    formRaw.addEventListener("submit", (e) => {
+    formRaw.addEventListener("submit", async (e) => {
         e.preventDefault();
         let formData = new FormData(formRaw);
         let formDataExtracted = Object.fromEntries(formData.entries());
         console.log(formDataExtracted)
         if (formDataExtracted.userPassword !== formDataExtracted.userPasswordRepeat) {
-            console.log("las cntraseñas no se parecen")
+            console.log("las contraseñas no se parecen")
             return
+        }
+        console.log("sending info")
+        let info;
+        try {
+            info = await registerNewUser(formDataExtracted);
+            console.log(info); // Aquí puedes trabajar con la respuesta JSON
+
+            if (info.message) {
+                loginView();
+            } else if (info.error) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "warning",
+                    title: info.error,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        } catch (error) {
+            console.error("Error al recibir la informacion ", error);
+
         }
     })
 
-    return divRoot
+    //return divRoot
+    return RegisterBox
 }
