@@ -1,4 +1,4 @@
-import { LOGINURL, REGISTERURL } from "./urlBackend.js";
+import { HOMEURL, LOGINURL, REGISTERURL } from "./urlBackend.js";
 
 export const registerNewUser = (packageSent) => {
     return fetch(REGISTERURL, {
@@ -32,6 +32,28 @@ export const loginUser = (packageSent) => {
     }).catch((error) => {
         console.error("Error en la petición:", error);
     });
+}
+
+export const homeList = () => {
+    const token = localStorage.getItem("token"); // Recuperar el token del almacenamiento
+
+    return fetch(HOMEURL, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`, // Enviar el token en el encabezado
+            "Content-Type": "application/json"
+        },
+    })
+        .then((response) => {
+            console.log("Estado de la respuesta:", response.status);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+            return response.json(); // Convertir la respuesta a JSON
+        })
+        .catch((error) => {
+            console.error("Error en la petición:", error);
+        });
 }
 
 export const saveToken = (jwtX) => {

@@ -1,15 +1,32 @@
-import { divRoot, textfile1 } from "../helpers/dom.js";
+// import { HeaderComponent } from "../components/HeaderC";
+// import { loginComponent } from "../components/LoginC";
+// import { divRoot } from "../helpers/dom";
+
+import { textfile1 } from "../helpers/dom.js";
 import { loginUser, saveToken } from "../helpers/requests.js";
 import { LOGINURL } from "../helpers/urlBackend.js";
-import { HomeView } from "./home.js";
 
+// en caso de querer crear las vistas anexando los componentes y modificando el divRoot
+// export const loginView = () => {
+//     // creacion y captura del DOM
+//     const fragment = document.createDocumentFragment();
+
+//     // anexo del DOM
+//     fragment.appendChild(HeaderComponent)
+//     fragment.appendChild(loginComponent)
+//     divRoot.appendChild(fragment)
+
+//     // return divRoot
+//     return divRoot
+// }
+
+// en caso de solo querer modificar el staticBox
 export const loginView = () => {
-    //creacion y captura del DOM
-    const fragment = document.createDocumentFragment();
-    // const loginBox = document.createElement("div");
+    // captura del DOM
     const loginBox = document.querySelector("#staticBox");
 
-    //modificacion del DOM    
+    // modificacion del DOM    
+    loginBox.className = "d-flex flex-row bg-light h-100"
     loginBox.innerHTML = `
      <article class="container d-flex flex-col flex-wrap justify-content-center align-items-center py-4 px-1 bg-secondary bg-gradient col-6 h-100">
         <div class="container p-1 my-5 w-75">
@@ -27,34 +44,33 @@ export const loginView = () => {
             <button type="submit my-b" class="btn btn-primary">Ingresar</button>
         </form>
     </article>
-    `
-    loginBox.className = "d-flex flex-row bg-light h-100"
+    `;
 
-    //anexo/posicionamiento del DOM  
-    // fragment.appendChild(loginBox);
-    // divRoot.appendChild(fragment);
-    // ya es innecesario porque se esta modificando un div desde el index.js
-
-    //funciones
-    let formRaw = document.querySelector("form")
+    // funciones
+    let formRaw = document.querySelector("form");
     formRaw.addEventListener("submit", async (e) => {
         e.preventDefault();
         let formData = new FormData(formRaw);
         let formDataExtracted = Object.fromEntries(formData.entries());
         console.log(formDataExtracted)
+
+        //agregar validaciones
         if (formDataExtracted.userEmail.length <= 5) {
             console.log("Email no valido")
             return
         }
+
+        //todo esta correcto
         console.log("sending info")
         let info;
         try {
             info = await loginUser(formDataExtracted);
-            console.log(info); // Aquí puedes trabajar con la respuesta JSON
+            console.log(info);
 
             if (info.message) {
                 saveToken(info.serverInfo)
-                HomeView();
+                // redireccionar al Home
+                window.location.hash = "home"
             } else if (info.error) {
                 Swal.fire({
                     position: "top-end",
@@ -67,11 +83,8 @@ export const loginView = () => {
 
         } catch (error) {
             console.error("Error al recibir la informacion ", error);
-
         }
-    })
+    });
 
-
-    // return divRoot
-    return loginBox
+    return loginBox;
 }
