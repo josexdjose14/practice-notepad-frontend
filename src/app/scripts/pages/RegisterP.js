@@ -1,14 +1,9 @@
-import { divRoot, textfile2 } from "../helpers/dom.js";
+import { textfile2 } from "../helpers/dom.js";
 import { registerNewUser } from "../helpers/requests.js";
-import { loginView } from "./login.js";
 
 export const RegisterView = () => {
-    //creacion y captura del DOM
-    const fragment = document.createDocumentFragment();
-    // const RegisterBox = document.createElement("div");
     const RegisterBox = document.querySelector("#staticBox");
-
-    //modificacion del DOM    
+    RegisterBox.className = "col d-flex flex-row justify-content-between bg-light h-100"
     RegisterBox.innerHTML = `
      <article class="container d-flex flex-col flex-wrap justify-content-center align-items-center py-5 px-2 bg-secondary bg-gradient">
         <div class="container p-1 my-4 w-75">
@@ -31,14 +26,8 @@ export const RegisterView = () => {
         </form>
     </article>
     `
-    RegisterBox.className = "col d-flex flex-row justify-content-between bg-light h-100"
 
-    //anexo/posicionamiento del DOM  
-    // fragment.appendChild(RegisterBox);
-    // divRoot.appendChild(fragment);
-    // ya es innecesario porque se esta modificando un div desde el index.js
-
-    //funciones
+    // funciones
     let formRaw = document.querySelector("form")
     formRaw.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -53,10 +42,10 @@ export const RegisterView = () => {
         let info;
         try {
             info = await registerNewUser(formDataExtracted);
-            console.log(info); // Aquí puedes trabajar con la respuesta JSON
+            console.log(info);
 
             if (info.message) {
-                loginView();
+                window.location.hash = "login"
             } else if (info.error) {
                 Swal.fire({
                     position: "top-end",
@@ -70,8 +59,7 @@ export const RegisterView = () => {
             console.error("Error al recibir la informacion ", error);
 
         }
-    })
+    });
 
-    //return divRoot
-    return RegisterBox
+    return RegisterBox;
 }

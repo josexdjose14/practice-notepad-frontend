@@ -1,6 +1,6 @@
-import { Header } from "./components/Header.js";
+import { HeaderComponent } from "./components/HeaderC.js";
 import { divRoot } from "./helpers/dom.js";
-import { loginView } from "./pages/login.js";
+import "./routes/Router.js"; //registrar el enrutador
 
 const appState = {
     user: { name: "Usuario" },
@@ -8,15 +8,24 @@ const appState = {
     page: "Login"
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    //carga inicial
-    divRoot.className = "h-100"
-    divRoot.appendChild(Header(appState))
-    //se crea un div estatico para cambiarlo mas facil
-    //const fragment = document.createDocumentFragment();
+// document.addEventListener('DOMContentLoaded', () => {
+//     //carga inicial
+//     divRoot.className = "h-100"
+//     divRoot.appendChild(Header(appState))
+//     //se crea un div estatico para cambiarlo mas facil
+//     //const fragment = document.createDocumentFragment();
+//     const staticBox = document.createElement("div");
+//     staticBox.id = "staticBox";
+//     divRoot.appendChild(staticBox)
+
+//     loginView()
+// })
+
+document.addEventListener("DOMContentLoaded", () => {
+    // primera carga
+    divRoot.className = "h-100";
+    divRoot.appendChild(HeaderComponent());
     const staticBox = document.createElement("div");
     staticBox.id = "staticBox";
-    divRoot.appendChild(staticBox)
-
-    loginView()
-})
+    divRoot.appendChild(staticBox);
+});
