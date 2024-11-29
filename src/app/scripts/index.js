@@ -8,19 +8,6 @@ const appState = {
     page: "Login"
 };
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     //carga inicial
-//     divRoot.className = "h-100"
-//     divRoot.appendChild(Header(appState))
-//     //se crea un div estatico para cambiarlo mas facil
-//     //const fragment = document.createDocumentFragment();
-//     const staticBox = document.createElement("div");
-//     staticBox.id = "staticBox";
-//     divRoot.appendChild(staticBox)
-
-//     loginView()
-// })
-
 document.addEventListener("DOMContentLoaded", () => {
     // primera carga
     divRoot.className = "h-100";
