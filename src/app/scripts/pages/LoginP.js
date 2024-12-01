@@ -70,6 +70,12 @@ export const loginView = () => {
             if (info.message) {
                 saveToken(info.serverInfo)
                 // redireccionar al Home
+                const navBox = document.querySelector("#mainHeader");
+
+                navBox.children[0].children[0].className = "nav-item mx-3"; //home
+                navBox.children[0].children[1].className = "nav-item mx-3 collapse"; //register
+                navBox.children[0].children[2].className = "nav-item mx-3 collapse"; //login
+                navBox.children[0].children[3].className = "nav-item mx-3";; //logout
                 window.location.hash = "home"
             } else if (info.error) {
                 Swal.fire({

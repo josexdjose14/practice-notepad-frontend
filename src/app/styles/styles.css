@@ -5,3 +5,7 @@ body {
     width: 100vw;
     overflow: hidden;
 }
+
+li:hover {
+    cursor: pointer;
+}
