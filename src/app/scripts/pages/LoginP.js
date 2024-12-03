@@ -1,26 +1,8 @@
-// import { HeaderComponent } from "../components/HeaderC";
-// import { loginComponent } from "../components/LoginC";
-// import { divRoot } from "../helpers/dom";
-
 import { textfile1 } from "../helpers/dom.js";
+import { moveIn } from "../helpers/headerChanger.js";
 import { loginUser, saveToken } from "../helpers/requests.js";
 import { LOGINURL } from "../helpers/urlBackend.js";
 
-// en caso de querer crear las vistas anexando los componentes y modificando el divRoot
-// export const loginView = () => {
-//     // creacion y captura del DOM
-//     const fragment = document.createDocumentFragment();
-
-//     // anexo del DOM
-//     fragment.appendChild(HeaderComponent)
-//     fragment.appendChild(loginComponent)
-//     divRoot.appendChild(fragment)
-
-//     // return divRoot
-//     return divRoot
-// }
-
-// en caso de solo querer modificar el staticBox
 export const loginView = () => {
     // captura del DOM
     const loginBox = document.querySelector("#staticBox");
@@ -52,25 +34,21 @@ export const loginView = () => {
         e.preventDefault();
         let formData = new FormData(formRaw);
         let formDataExtracted = Object.fromEntries(formData.entries());
-        console.log(formDataExtracted)
+        console.log("form inputs: ", formDataExtracted)
 
         //agregar validaciones
-        if (formDataExtracted.userEmail.length <= 5) {
-            console.log("Email no valido")
-            return
-        }
+        // nah
 
         //todo esta correcto
-        console.log("sending info")
-        let info;
+        console.log("enviando peticion de login")
         try {
-            info = await loginUser(formDataExtracted);
-            console.log(info);
+            let info = await loginUser(formDataExtracted);
+            console.log("info de la peticion; ", info);
 
             if (info.message) {
                 saveToken(info.serverInfo)
                 // redireccionar al Home
-                window.location.hash = "home"
+                moveIn();
             } else if (info.error) {
                 Swal.fire({
                     position: "top-end",
@@ -82,7 +60,7 @@ export const loginView = () => {
             }
 
         } catch (error) {
-            console.error("Error al recibir la informacion ", error);
+            console.error("Error al recibir la informacion de info en login ", error);
         }
     });
 
