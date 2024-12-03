@@ -1,3 +1,4 @@
+import { moveOut } from "../helpers/headerChanger.js";
 import { addNewNote, deleteNote, editNote, homeList } from "../helpers/requests.js";
 
 export const HomeView = () => {
@@ -35,8 +36,9 @@ export const HomeView = () => {
 
     // Funciones
     updateNoteList();
-    // Texto del formulario
+    // captura DOM
     let legend = document.querySelector("h5")
+    let person = document.querySelector("#userName")
     // Formulario para crear nota
     let createForm = document.querySelector("#createForm");
     createForm.addEventListener("submit", async (e) => {
@@ -48,19 +50,27 @@ export const HomeView = () => {
         //agregar validaciones
         if (formDataExtracted.userNote.length <= 3) {
             console.log("Esto no es una nota")
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "esto no parece una nota",
+                showConfirmButton: false,
+                timer: 2000
+            });
             return
         }
 
         //todo esta correcto
-        console.log("enviado informacion al backend")
         try {
             const info = await addNewNote(formDataExtracted);
-            console.log(info);
+            console.log("informacion de la nueva nota:", info);
 
             if (info.message) {
                 createForm.reset(); // Limpiar el formulario
                 await updateNoteList(); // Actualizar la lista de notas
-            } else if (info.error) {
+            } else if (info.error.includes('oken')) {
+                updateNoteList();
+            } else {
                 Swal.fire({
                     position: "top-end",
                     icon: "warning",
@@ -91,7 +101,6 @@ export const HomeView = () => {
         }
 
         //todo esta correcto
-        console.log("enviado informacion al backend")
         try {
             const info = await editNote(formDataExtracted, editForm.dataset.db);
             console.log(info);
@@ -103,14 +112,22 @@ export const HomeView = () => {
                 createForm.classList = "d-flex";
                 editForm.classList = "collapse";
 
-            } else if (info.error) {
-                Swal.fire({
+            } else if (info.error.includes('oken')) {
+                updateNoteList();
+            } else {
+                editForm.reset(); // Limpiar el formulario
+
+                legend.innerText = "Agrega una nueva nota";
+                createForm.classList = "d-flex";
+                editForm.classList = "collapse";
+                await Swal.fire({
                     position: "top-end",
                     icon: "warning",
                     title: info.error,
                     showConfirmButton: false,
                     timer: 2000
                 });
+                updateNoteList();
             }
         } catch (error) {
             console.error("Error al tratar de hacer la nota: ", error);
@@ -128,8 +145,12 @@ export const HomeView = () => {
     async function updateNoteList() {
         try {
             const response = await homeList();
-            console.log("Actualizando la lista de notas con: ", response);
+            if (response.error) {
+                let setError = response.error
+                throw new Error(setError);
+            }
 
+            person.innerText = response.serverInfo.logedUserInfo.userName;
             let userList = response.serverInfo.logedUserNotes;
             let listToChange = document.querySelector("tbody");
 
@@ -160,18 +181,34 @@ export const HomeView = () => {
                 })
                 newTr.children[1].children[1].addEventListener('click', () => {
                     console.log('activando evento de eliminar')
-                    try {
-                        let resp = deleteNote(element._id)
-                        console.log(resp)
-                    } catch (error) {
-                        console.log(error)
-                    }
-                    updateNoteList();
+                    deleteNote(element._id)
+                        .then((resp) => {
+                            if (resp.error) {
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "warning",
+                                    title: resp.error,
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                });
+                            }
+                            updateNoteList();
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
                 })
                 listToChange.appendChild(newTr);
             });
         } catch (error) {
-            console.error("Error al actualizar la lista de notas: ", error);
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: error.message,
+                showConfirmButton: false,
+                timer: 2000
+            });
+            moveOut()
         }
     }
 

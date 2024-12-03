@@ -17,13 +17,13 @@ export const RegisterComponent = () => {
     <article class="container d-flex justify-content-center align-items-center py-5 px-2">
         <form class="d-flex row justify-content-center p-1 my-4 w-75">
         <label for="" class="form-label mb-2">Ingrese su nombre</label>
-            <input type="text" name="userName" class="form-control mb-4" value="Jose Henao">
+            <input type="text" name="userName" class="form-control mb-4">
             <label for="" class="form-label mb-2">Ingrese su correo</label>
-            <input type="text" name="userEmail" class="form-control mb-4" value="josexdjose14@gmail.com">
+            <input type="text" name="userEmail" class="form-control mb-4">
             <label for="" class="form-label mb-2">Ingrese su contraseña</label>
-            <input type="password" name="userPassword" class="form-control mb-4" value="141414">
+            <input type="password" name="userPassword" class="form-control mb-4">
             <label for="" class="form-label mb-2">Repita su contraseña</label>
-            <input type="password" name="userPasswordRepeat" class="form-control mb-4" value="141414">
+            <input type="password" name="userPasswordRepeat" class="form-control mb-4">
             <button type="submit" class="btn btn-primary">Registrarse</button>
         </form>
     </article>

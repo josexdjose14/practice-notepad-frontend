@@ -8,14 +8,12 @@ export const registerNewUser = (packageSent) => {
         },
         body: JSON.stringify(packageSent)
     }).then((response) => {
-        console.log("estado de la respuesta: ", response.status)
         if (!response.ok) {
-            //throw new Error(`Error: ${response.status}`);
-            return response.json();
+            console.log("la respuesta no es correcta", response.status)
         }
         return response.json(); // Convertir la respuesta a JSON
     }).catch((error) => {
-        console.error("Error en la petición:", error);
+        console.error("Error en la petición de crear nuevo usuario: ", error);
     });
 }
 
@@ -27,16 +25,17 @@ export const loginUser = (packageSent) => {
         },
         body: JSON.stringify(packageSent)
     }).then((response) => {
-        console.log("estado de la respuesta: ", response.status)
-        return response.json(); // Convertir la respuesta a JSON
+        if (!response.ok) {
+            console.log("la respuesta no es correcta", response.status)
+        }
+        return response.json();
     }).catch((error) => {
-        console.error("Error en la petición:", error);
+        console.error("Error en la petición de ingreso de usuario", error);
     });
 }
 
 export const homeList = () => {
     const token = localStorage.getItem("token"); // Recuperar el token del almacenamiento
-    console.log("token enviado: ", token)
     return fetch(HOMEURL, {
         method: "GET",
         headers: {
@@ -47,9 +46,9 @@ export const homeList = () => {
         .then((response) => {
             console.log("Estado de la respuesta:", response.status);
             if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
+                console.log("la respuesta no es correcta", response.status)
             }
-            return response.json(); // Convertir la respuesta a JSON
+            return response.json();
         })
         .catch((error) => {
             console.error("Error en la petición GET en /home", error);
@@ -57,25 +56,24 @@ export const homeList = () => {
 }
 
 export const addNewNote = (newNote) => {
-    const token = localStorage.getItem("token"); // Recuperar el token del almacenamiento
+    const token = localStorage.getItem("token");
     console.log("token enviado: ", token)
     return fetch(HOMEURL, {
         method: "POST",
         headers: {
-            "Authorization": `Bearer ${token}`, // Enviar el token en el encabezado
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(newNote)
     })
         .then((response) => {
-            console.log("Estado de la respuesta:", response.status);
             if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
+                console.log("la respuesta no es correcta", response.status)
             }
-            return response.json(); // Convertir la respuesta a JSON
+            return response.json();
         })
         .catch((error) => {
-            console.error("Error en la petición GET en /home", error);
+            console.error("Error en la petición CREATE en /home", error);
         });
 }
 
@@ -90,11 +88,10 @@ export const editNote = (noteToEdit, newQuery) => {
         body: JSON.stringify(noteToEdit)
     })
         .then((response) => {
-            console.log("Estado de la respuesta de edicion:", response.status);
             if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
+                console.log("la respuesta no es correcta", response.status)
             }
-            return response.json(); // Convertir la respuesta a JSON
+            return response.json();
         })
         .catch((error) => {
             console.error("Error en la petición UPDATE en /home", error);
@@ -111,11 +108,10 @@ export const deleteNote = (newQuery) => {
         },
     })
         .then((response) => {
-            console.log("Estado de la respuesta de DELETE:", response.status);
             if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
+                console.log("la respuesta no es correcta", response.status)
             }
-            return response.json(); // Convertir la respuesta a JSON
+            return response.json();
         })
         .catch((error) => {
             console.error("Error en la petición DELETE en /home", error);

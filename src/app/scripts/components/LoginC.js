@@ -71,3 +71,17 @@ export const loginComponent = () => {
 
     return loginBox;
 }
+
+// en caso de querer crear las vistas anexando los componentes y modificando el divRoot
+// export const loginView = () => {
+//     // creacion y captura del DOM
+//     const fragment = document.createDocumentFragment();
+
+//     // anexo del DOM
+//     fragment.appendChild(HeaderComponent)
+//     fragment.appendChild(loginComponent)
+//     divRoot.appendChild(fragment)
+
+//     // return divRoot
+//     return divRoot
+// }
