@@ -9,3 +9,7 @@ body {
 li:hover {
     cursor: pointer;
 }
+
+#changeP {
+    text-decoration: double;
+}

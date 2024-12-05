@@ -1,3 +1,4 @@
 export let divRoot = document.querySelector('#root');
-export const textfile1 = "Esta es una aplicación web de Notepad, las anotaciones que hagas se guardaran en un servidor de MongoDB al cual yo tendré acceso, así que puedes colocar toda la información privada que quieras sin problemas 😈";
-export const textfile2 = "texto de prueba para el registro";
+export const textfile1 = "Esta es una aplicación web de Bloc de notas, las notas que hagas se guardarán en un servidor MongoDB al cual tendré acceso, así que podrás guardar con seguridad toda la información privada que quieras sin problemas 😈";
+export const textfile2 = "Para evitar cualquier inconveniente (como perder tu contraseña) te recomiendo que utilices una contraseña que puedas recordar fácilmente (como la de tu correo electrónico) o una combinación numérica sencilla (como los códigos que aparecen en el reverso de tu tarjeta bancaria). Recuerda validar antes tu usuario (revisa tu correo) 😇";
+export const textfile3 = "Increíble... tener que hacer 2 servicios más en el backend solo porque perdiste tu contraseña 🙄. En fin, primero ingresa una dirección de correo electrónico registrada en la aplicación en el formulario de arriba, se enviará un token a ese correo electrónico que utilizarás para cambiar la contraseña en el formulario de abajo."

@@ -1,4 +1,4 @@
-import { HOMEURL, LOGINURL, REGISTERURL } from "./urlBackend.js";
+import { HOMEURL, LOGINURL, RECOVER_URL, REGISTERURL } from "./urlBackend.js";
 
 export const registerNewUser = (packageSent) => {
     return fetch(REGISTERURL, {
@@ -8,9 +8,6 @@ export const registerNewUser = (packageSent) => {
         },
         body: JSON.stringify(packageSent)
     }).then((response) => {
-        if (!response.ok) {
-            console.log("la respuesta no es correcta", response.status)
-        }
         return response.json(); // Convertir la respuesta a JSON
     }).catch((error) => {
         console.error("Error en la petición de crear nuevo usuario: ", error);
@@ -25,9 +22,6 @@ export const loginUser = (packageSent) => {
         },
         body: JSON.stringify(packageSent)
     }).then((response) => {
-        if (!response.ok) {
-            console.log("la respuesta no es correcta", response.status)
-        }
         return response.json();
     }).catch((error) => {
         console.error("Error en la petición de ingreso de usuario", error);
@@ -44,10 +38,6 @@ export const homeList = () => {
         },
     })
         .then((response) => {
-            console.log("Estado de la respuesta:", response.status);
-            if (!response.ok) {
-                console.log("la respuesta no es correcta", response.status)
-            }
             return response.json();
         })
         .catch((error) => {
@@ -57,7 +47,6 @@ export const homeList = () => {
 
 export const addNewNote = (newNote) => {
     const token = localStorage.getItem("token");
-    console.log("token enviado: ", token)
     return fetch(HOMEURL, {
         method: "POST",
         headers: {
@@ -67,9 +56,6 @@ export const addNewNote = (newNote) => {
         body: JSON.stringify(newNote)
     })
         .then((response) => {
-            if (!response.ok) {
-                console.log("la respuesta no es correcta", response.status)
-            }
             return response.json();
         })
         .catch((error) => {
@@ -88,9 +74,6 @@ export const editNote = (noteToEdit, newQuery) => {
         body: JSON.stringify(noteToEdit)
     })
         .then((response) => {
-            if (!response.ok) {
-                console.log("la respuesta no es correcta", response.status)
-            }
             return response.json();
         })
         .catch((error) => {
@@ -108,9 +91,39 @@ export const deleteNote = (newQuery) => {
         },
     })
         .then((response) => {
-            if (!response.ok) {
-                console.log("la respuesta no es correcta", response.status)
-            }
+            return response.json();
+        })
+        .catch((error) => {
+            console.error("Error en la petición DELETE en /home", error);
+        });
+}
+
+// verificar existencia de cuenta
+export const verifyEmail = (newQuery) => {
+    return fetch(RECOVER_URL + `?userEmail=${newQuery}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .catch((error) => {
+            console.error("Error en la petición DELETE en /home", error);
+        });
+}
+
+export const changePassword = (data) => {
+    return fetch(RECOVER_URL, {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${data.userToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then((response) => {
             return response.json();
         })
         .catch((error) => {
