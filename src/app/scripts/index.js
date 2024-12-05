@@ -1,6 +1,7 @@
 import { HeaderComponent } from "./components/HeaderC.js";
 import { divRoot } from "./helpers/dom.js";
 import "./routes/Router.js"; //registrar el enrutador
+import "../styles/styles.css";
 
 document.addEventListener("DOMContentLoaded", () => {
     // primera carga

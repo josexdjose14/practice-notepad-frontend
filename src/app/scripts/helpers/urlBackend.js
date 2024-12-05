@@ -1,4 +1,8 @@
-export const REGISTERURL = "https://practice-notepad-backend.onrender.com/register";
-export const LOGINURL = "https://practice-notepad-backend.onrender.com/login";
-export const HOMEURL = "https://practice-notepad-backend.onrender.com/home"
-export const URL_BASE = "https://practice-notepad-backend.onrender.com"
+// const BASE_URL = "http://localhost:5000"; // dev
+const BASE_URL = "https://practice-notepad-backend.onrender.com"
+export const REGISTERURL = `${BASE_URL}/register`
+
+export const LOGINURL = `${BASE_URL}/login`;
+export const HOMEURL = `${BASE_URL}/home`;
+export const CONFIRM_URL = `${BASE_URL}/confirm`;
+export const RECOVER_URL = `${BASE_URL}/recover`;

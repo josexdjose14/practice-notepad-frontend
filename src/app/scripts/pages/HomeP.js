@@ -45,7 +45,6 @@ export const HomeView = () => {
         e.preventDefault();
         let formData = new FormData(createForm);
         let formDataExtracted = Object.fromEntries(formData.entries());
-        console.log(formDataExtracted)
 
         //agregar validaciones
         if (formDataExtracted.userNote.length <= 3) {
@@ -63,7 +62,7 @@ export const HomeView = () => {
         //todo esta correcto
         try {
             const info = await addNewNote(formDataExtracted);
-            console.log("informacion de la nueva nota:", info);
+            // console.log("informacion de la nueva nota:", info);
 
             if (info.message) {
                 createForm.reset(); // Limpiar el formulario
@@ -92,18 +91,24 @@ export const HomeView = () => {
         e.preventDefault();
         let formData = new FormData(editForm);
         let formDataExtracted = Object.fromEntries(formData.entries());
-        console.log("info a editar: ", formDataExtracted)
+        // console.log("info a editar: ", formDataExtracted)
 
         //agregar validaciones
         if (formDataExtracted.userNote.length <= 3) {
-            console.log("Esto no es una nota")
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "esto no parece una nota",
+                showConfirmButton: false,
+                timer: 2000
+            });
             return
         }
 
         //todo esta correcto
         try {
             const info = await editNote(formDataExtracted, editForm.dataset.db);
-            console.log(info);
+            // console.log(info);
 
             if (info.message) {
                 editForm.reset(); // Limpiar el formulario
@@ -150,7 +155,7 @@ export const HomeView = () => {
                 throw new Error(setError);
             }
 
-            person.innerText = response.serverInfo.logedUserInfo.userName;
+            person.innerText = response.serverInfo.userName;
             let userList = response.serverInfo.logedUserNotes;
             let listToChange = document.querySelector("tbody");
 
@@ -180,7 +185,7 @@ export const HomeView = () => {
                     editForm[0].value = texto;
                 })
                 newTr.children[1].children[1].addEventListener('click', () => {
-                    console.log('activando evento de eliminar')
+                    // console.log('activando evento de eliminar')
                     deleteNote(element._id)
                         .then((resp) => {
                             if (resp.error) {

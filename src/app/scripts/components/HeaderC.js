@@ -16,11 +16,11 @@ export const HeaderComponent = () => {
     nav.addEventListener('click', (e) => {
 
         if (e.target.classList.contains("nav-item") && e.target.dataset.route === "#logout") {
-            console.log("saliendo de home")
+            // console.log("saliendo de home")
             moveOut();
         } else if (e.target.classList.contains("nav-item")) {
             const route = e.target.getAttribute("data-route");
-            console.log(route)
+            // console.log(route)
             window.location.hash = route;
         }
     });

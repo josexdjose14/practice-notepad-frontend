@@ -23,7 +23,8 @@ export const loginView = () => {
             <input type="text" name="userEmail" class="form-control mb-4">
             <label for="" class="form-label mb-2">Ingrese su contraseña</label>
             <input type="password" name="userPassword" class="form-control mb-4">
-            <button type="submit my-b" class="btn btn-primary">Ingresar</button>
+            <button type="submit" class="btn btn-primary mb-2">Ingresar</button>
+            <p id="changeP" class="a text-end"> <a href="#recover">olvide mi contraseña</a></p>
         </form>
     </article>
     `;
@@ -34,16 +35,15 @@ export const loginView = () => {
         e.preventDefault();
         let formData = new FormData(formRaw);
         let formDataExtracted = Object.fromEntries(formData.entries());
-        console.log("form inputs: ", formDataExtracted)
+        // console.log("form inputs: ", formDataExtracted)
 
         //agregar validaciones
         // nah
 
         //todo esta correcto
-        console.log("enviando peticion de login")
+        // console.log("enviando peticion de login")
         try {
             let info = await loginUser(formDataExtracted);
-            console.log("info de la peticion; ", info);
 
             if (info.message) {
                 saveToken(info.serverInfo)

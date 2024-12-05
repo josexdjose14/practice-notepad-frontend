@@ -53,7 +53,7 @@ export const RegisterView = () => {
         // captura informacion del formulario
         let formData = new FormData(formRaw);
         let formDataExtracted = Object.fromEntries(formData.entries());
-        console.log(formDataExtracted)
+        // console.log(formDataExtracted)
         // validaciones aplicadas
         let errores = [];
         Object.keys(formDataExtracted).forEach((fieldName) => {
@@ -74,12 +74,19 @@ export const RegisterView = () => {
             return;
         }
         // en caso de ningun error
-        console.log("informacion valida, enviando...")
+        // console.log("informacion valida, enviando...")
         try {
             let info = await registerNewUser(formDataExtracted);
-            console.log(info);
+            // console.log(info);
 
             if (info.message) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: info.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
                 window.location.hash = "login"
             } else if (info.error) {
                 Swal.fire({
